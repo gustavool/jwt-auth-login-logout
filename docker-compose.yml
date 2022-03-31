@@ -8,9 +8,9 @@ services:
     ports:
       - 5432:5432
     environment:
-      - POSTGRES_USER=jwt-auth
-      - POSTGRES_PASSWORD=jwt-auth
-      - POSTGRES_DB=jwt-auth
+      - POSTGRES_USER=docker-user
+      - POSTGRES_PASSWORD=docker-pass
+      - POSTGRES_DB=docker-db
     volumes:
       - pgdata:/data/postgres
     # network_mode: host
