@@ -13,17 +13,17 @@ services:
       - POSTGRES_DB=docker-db
     volumes:
       - pgdata:/data/postgres
-    # network_mode: host
 
   app:
     build: .
     container_name: 'jwt-auth-app'
     ports:
       - 3000:3000
+    env_file:
+      - .env
     volumes:
       - .:/usr/app
-    # network_mode: host
 
 volumes:
   pgdata:
-    driver: local
+    # driver: local
