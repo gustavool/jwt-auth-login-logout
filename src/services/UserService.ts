@@ -49,7 +49,7 @@ class UserService {
     return userResponse;
   }
 
-  async findByEmail(email: string): Promise<IUserResponse> {
+  async findByEmail(email: string): Promise<User> {
     const user = await prismaClient.user.findFirst({
       where: {
         email,
@@ -60,15 +60,7 @@ class UserService {
       throw new AppError('User not found', 404);
     }
 
-    const userResponse: IUserResponse = {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      createdAt: user.createdAt,
-      updatedAt: user.updatedAt,
-    };
-
-    return userResponse;
+    return user;
   }
 
   async findById(id: string): Promise<IUserResponse> {
@@ -93,10 +85,20 @@ class UserService {
     return userResponse;
   }
 
-  async findAll(): Promise<User[]> {
+  async findAll(): Promise<IUserResponse[]> {
     const users = await prismaClient.user.findMany();
 
-    return users;
+    const usersResponse: IUserResponse[] = users.map(user => {
+      return {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+      };
+    });
+
+    return usersResponse;
   }
 }
 

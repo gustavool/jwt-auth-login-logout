@@ -9,8 +9,9 @@ const router = Router();
 const userController = new UserController();
 const authController = new AuthController();
 
-router.post('/user', userController.create);
-router.get('/user/:id', authMiddleware, userController.findById);
+router.post('/users', userController.create);
+router.get('/users/:id', authMiddleware, userController.findById);
+router.get('/users', authMiddleware, userController.findAll);
 router.post('/auth', authController.auth);
 
 export default router;

@@ -10,8 +10,6 @@ export default function authMiddleware(
 ) {
   const authHeader = request.headers.authorization;
 
-  console.log('authHeader', authHeader);
-
   if (!authHeader) {
     throw new AppError('JWT token is missing', 401);
   }
@@ -20,8 +18,6 @@ export default function authMiddleware(
 
   try {
     const decoded = verify(token, `${process.env.JWT_SECRET}`);
-
-    console.log('token verify data', decoded);
 
     // request.user = user;
 

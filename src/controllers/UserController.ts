@@ -18,23 +18,9 @@ class UserController {
   async findById(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
 
-    console.log('params', request.params);
-
     const service = new UserService();
 
     const user = await service.findById(id);
-
-    return response.json({
-      user,
-    });
-  }
-
-  async findByEmail(request: Request, response: Response): Promise<Response> {
-    const { email } = request.params;
-
-    const service = new UserService();
-
-    const user = await service.findByEmail(email);
 
     return response.json({
       user,
