@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 
+import { AppError } from '../errors/AppError';
+import blacklist from '../redis/blacklist';
 import AuthService from '../services/AuthService';
 import UserService from '../services/UserService';
 
@@ -8,8 +10,12 @@ interface IBody {
   password: string;
 }
 
+interface IHeader {
+  authorization: string;
+}
+
 class AuthController {
-  async auth(request: Request, response: Response): Promise<Response> {
+  async login(request: Request, response: Response): Promise<Response> {
     const body = request.body as IBody;
 
     const userService = new UserService();
@@ -29,6 +35,17 @@ class AuthController {
     };
 
     return response.json({ user: userResponse, token });
+  }
+
+  async logout(request: Request, response: Response): Promise<Response> {
+    try {
+      const { token } = request;
+
+      await blacklist.addToken(token);
+      return response.status(204).send();
+    } catch {
+      throw new AppError('Error to logout', 500);
+    }
   }
 }
 

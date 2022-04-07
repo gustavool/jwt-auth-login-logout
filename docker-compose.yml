@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  database:
+  postgres:
     image: postgres
     container_name: 'jwt-auth-db'
     restart: always
@@ -13,6 +13,16 @@ services:
       - POSTGRES_DB=docker-db
     volumes:
       - pgdata:/data/postgres
+
+  redis:
+    image: redis
+    container_name: 'jwt-auth-redis'
+    restart: always
+    ports:
+      - 6379:6379
+    command: redis-server --requirepass docker-redis-pass
+    volumes:
+      - redisdata:/data/redis
 
   app:
     build: .
@@ -26,4 +36,4 @@ services:
 
 volumes:
   pgdata:
-    # driver: local
+  redisdata:

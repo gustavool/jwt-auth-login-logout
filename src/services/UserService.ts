@@ -57,7 +57,7 @@ class UserService {
     });
 
     if (!user) {
-      throw new AppError('User not found', 404);
+      throw new AppError('Password or email is invalid', 404);
     }
 
     return user;

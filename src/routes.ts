@@ -12,6 +12,7 @@ const authController = new AuthController();
 router.post('/users', userController.create);
 router.get('/users/:id', authMiddleware, userController.findById);
 router.get('/users', authMiddleware, userController.findAll);
-router.post('/auth', authController.auth);
+router.post('/users/login', authController.login);
+router.post('/users/logout', authMiddleware, authController.logout);
 
 export default router;

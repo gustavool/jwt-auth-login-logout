@@ -2,6 +2,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 import { AppError } from '../errors/AppError';
+import blacklist from '../redis/blacklist';
 
 class AuthService {
   async createToken(
@@ -10,14 +11,14 @@ class AuthService {
     userPassword: string
   ): Promise<string> {
     const payload = {
-      bodyEmail,
-      bodyPassword,
+      email: bodyEmail,
+      password: bodyPassword,
     };
 
     const isValidPassword = await bcrypt.compare(bodyPassword, userPassword);
 
     if (!isValidPassword) {
-      throw new AppError('Invalid password', 401);
+      throw new AppError('Password or email is invalid', 401);
     }
 
     const token = jwt.sign(payload, `${process.env.JWT_SECRET}`, {
@@ -25,6 +26,14 @@ class AuthService {
     });
 
     return token;
+  }
+
+  async verifyTokenInBlackList(token: string): Promise<void> {
+    const isTokenInBlackList = await blacklist.isTokenListed(token);
+
+    if (isTokenInBlackList) {
+      throw new AppError('Token is not valid', 401);
+    }
   }
 }
 
