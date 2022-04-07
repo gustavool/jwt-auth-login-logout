@@ -2,7 +2,7 @@
 
 ## Description
 
-An API for user authorization with login and logout methods. The API can be used by the frontend to authenticate users and manage their access.
+An API for user authentication with login and logout methods. The API can be used by the frontend to authenticate users and manage their access.
 Was developed with Prisma ORM to connect to a Postgres database. Redis to store tokens temporarily. Docker and Docker compose to install all dependencies and run the API.
 
 ## Technologies used
