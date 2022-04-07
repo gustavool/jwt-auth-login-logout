@@ -27,10 +27,7 @@ export default async function authMiddleware(
 
   const [, token] = authHeader.split(' ');
 
-  const { email, password } = verify(
-    token,
-    `${process.env.JWT_SECRET}`
-  ) as IToken;
+  const { email } = verify(token, `${process.env.JWT_SECRET}`) as IToken;
 
   const user = await userService.findByEmail(email);
 

@@ -10,10 +10,6 @@ interface IBody {
   password: string;
 }
 
-interface IHeader {
-  authorization: string;
-}
-
 class AuthController {
   async login(request: Request, response: Response): Promise<Response> {
     const body = request.body as IBody;
